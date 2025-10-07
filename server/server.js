@@ -71,7 +71,7 @@ initDb().then((db) => {
     });
   });
 
-  app.listen(PORT, 'localhost', () => {
+  app.listen(PORT, () => {
     console.log(`🚀 HydroGauge API server listening on http://localhost:${PORT}`);
     console.log(`📊 Database: ${DB_NAME}`);
     console.log(`🔐 Environment: ${process.env.NODE_ENV || 'development'}`);
