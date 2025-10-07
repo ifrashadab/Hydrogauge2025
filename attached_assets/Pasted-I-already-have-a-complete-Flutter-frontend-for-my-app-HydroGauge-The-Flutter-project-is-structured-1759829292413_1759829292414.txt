@@ -1,0 +1,95 @@
+I already have a complete Flutter frontend for my app HydroGauge. 
+The Flutter project is structured like this:
+
+lib/
+ └── screens/
+      ├── main_screen.dart
+      ├── analyst_screen.dart
+      ├── capture_screen.dart
+      ├── dashboard_screen.dart
+      ├── history_detail_screen.dart
+      ├── history_screen.dart
+      ├── home_shell.dart
+      ├── login_screen.dart
+      ├── profile_screen.dart
+      ├── register_screen.dart
+      ├── schedule_visit_screen.dart
+      ├── settings_screen.dart
+      ├── site_manager_screen.dart
+      ├── supervisor_screen.dart
+      └── welcome_screen.dart
+services/
+widgets/
+main.dart, main_full.dart, etc.
+
+I now want to build a **complete backend** in Node.js + Express + MongoDB (Atlas).
+The backend folder has server.js, .env, and node_modules already initialized.
+
+Here’s what you must do:
+
+1. **Use my MongoDB Atlas credentials (from .env)**:
+PORT=8080
+MONGODB_URI="mongodb+srv://vishaljaiswal9820_db_user:iYxrhUuvjLf4y3K9@hydro.wv8gwqx.mongodb.net/?retryWrites=true&w=majority&appName=Hydro"
+DB_NAME=hydrogauge
+
+2. **Set up a proper backend structure:**
+backend/
+├── models/
+│ ├── User.js
+│ ├── Submission.js
+│ ├── Site.js
+│ ├── Visit.js
+│ └── Anomaly.js
+├── routes/
+│ ├── authRoutes.js
+│ ├── submissionRoutes.js
+│ ├── forecastRoutes.js
+│ ├── anomalyRoutes.js
+│ ├── siteRoutes.js
+│ └── visitRoutes.js
+├── utils/
+│ ├── forecast.js
+│ └── anomaly.js
+├── middleware/
+│ └── authMiddleware.js
+├── server.js
+└── .env
+
+3. **Implement routes and logic:**
+
+- `/auth/register`: Create new user (username, password, name, phone, role, createdAt)
+  - Use bcrypt for password hashing.
+- `/auth/login`: Verify credentials and issue JWT token.
+- `/submissions`: Save new readings from capture_screen.dart into MongoDB.
+- `/sites/:id/forecast`: Compute exponential smoothing forecast.
+- `/sites/:id/anomaly`: Run z-score anomaly detection.
+- `/visits/schedule`: Save site visit data (supervisor’s schedule).
+- `/users/:id/profile`: Get or update profile information.
+
+4. **Add role-based access:**
+- Each user can log in as **Supervisor**, **Analyst**, or **Employee**.
+- Use `role` field in User model.
+- Ensure that Supervisor sees all data, Analyst can view and verify submissions, and Employee can only upload readings.
+
+5. **Connect backend with the Flutter app:**
+- Use REST API endpoints for login, registration, submission, and forecast/anomaly pages.
+- Return responses in clean JSON format with success and message fields.
+
+6. **CORS + dotenv + middleware:**
+- Use `express.json()`, `dotenv/config`, and `cors()` middleware.
+- Implement authentication middleware for protected routes.
+
+7. **Testing:**
+- Add simple test endpoints like `/api/ping` to verify server is running.
+- Explain how to test each route with Postman or Replit’s HTTP client.
+
+8. **Frontend integration updates:**
+- Modify `login_screen.dart` to include a dropdown for role selection (`Supervisor`, `Analyst`, `Employee`).
+- Keep the current UI/UX and styling consistent.
+- Pass the selected role to the backend during login/register.
+
+9. **Final step:**
+- Explain how to run both backend and frontend together in Replit (or locally with `flutter run` + `node server.js`).
+- Ensure everything connects to MongoDB and the data flow works end-to-end.
+
+I want the backend to be production-ready, modular, and clean — with all logic pushed to MongoDB Atlas and role-based access functioning properly.
